@@ -81,7 +81,16 @@ def permitir_abrir_exame(request, exame_id):
 
     return redirect(f'/exames/solicitar_senha_exame/{exame_id}')
 
+@login_required
 def solicitar_senha_exame(request, exame_id):
+    exame = SolicitacaoExame.objects.get(id=exame_id)
     if request.method == 'GET':
-        return render(request, 'solicitar_senha_exame.html')
+        return render(request, 'solicitar_senha_exame.html', {'exame': exame})
+    elif request.method == 'POST':
+        senha = request.POST.get('senha')
+        if senha == exame.senha:
+            return redirect(exame.resultado.url)
+        else:
+            messages.add_message(request, constants.ERROR, 'Senha inválida.')
+            return redirect(f'/exames/solicitar_senha_exame/{exame.id}')
 
