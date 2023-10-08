@@ -23,7 +23,7 @@
         <br>
         <div class="row">
             <div class="col-md-6">
-                <form action="" method="POST">
+                <form action="{% url 'alterar_dados_exame' exame.id %}" method="POST" enctype="multipart/form-data"> {% csrf_token %}
                     <input type="FILE" value="Alterar PDF" class="btn-secundario" name="resultado">
 
                     <br>
