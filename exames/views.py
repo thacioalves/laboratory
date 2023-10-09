@@ -76,6 +76,9 @@ def permitir_abrir_exame(request, exame_id):
     exame = SolicitacaoExame.objects.get(id=exame_id)
 
     if not exame.requer_senha:
+        if not exame.resultado:
+            messages.add_message(request, constants.ERROR('Ainda não foi cadastrado um resultado.'))
+            return redirect('/exames/solicitar_exames/')
         return redirect(exame.resultado.url)
     
 
